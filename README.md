@@ -1,4 +1,4 @@
-# More Advanced Timer
+# linkedTmr
 #### Video Demo:
 <Add youtube link to explanation video>
 #### Description:
