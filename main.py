@@ -1,11 +1,11 @@
 # Imports
-import sqlite3 as sql
+import sqlite3 as db  # Database to store presets
 import PySimpleGUI as sg  # Used to make the GUI
 from projectFunctions import *  # Functions written for linkedTmr
 
 
 # Database setup
-con = sql.connect("linkedTmr.db")
+con = db.connect("linkedTmr.db")
 cur = con.cursor()
 
 
@@ -27,12 +27,29 @@ while True:
     # - Close the window
     if event == sg.WINDOW_CLOSED or event == "Exit":
         break
+    elif event == "Main Menu":
+        window.close()
+        window = window_main_menu()
     elif event == "Your Presets":
         window.close()
-        window = window_presets()
+        window = window_presets(cur)
+    elif event == "Create A Preset":
+        window.close()
+        window = window_create_preset_0()
+    elif event == "Next":
+        window.close()
+        window, name = button_next_create_preset(values)
+    elif event == "Save Preset":
+        window.close()
+        window = button_save_preset(values, con, cur, name)
+    elif event == "Start linkedTmr":
+        window.close()
+        window, timers = button_start(values, cur)
+        run_timer(timers, window)
     else:
-        return
+        window.close()
 
 
-# Program is finished, close the GUI
+# Program is finished, disconnect from db, close the GUI
+con.close()
 window.close()
